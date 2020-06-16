@@ -30,7 +30,7 @@ const TRANSLATIONS = {
     },
 };
 const DEFAULT_PROPS = {
-    locale: getLocale(document.documentElement.lang),
+    locale: "",
     shareUrl: window.location.href,
     shareTitle: "",
     useFacebook: true,
@@ -46,8 +46,9 @@ const DEFAULT_PROPS = {
 
 const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiven) => {
     const props = Object.assign({}, DEFAULT_PROPS, propsGiven);
-    const textShare = props.textShare || TRANSLATIONS.textShare[props.locale];
-    const textCopy = props.textCopy || TRANSLATIONS.textCopy[props.locale];
+    const locale = getLocale(props.locale || document.documentElement.lang);
+    const textShare = props.textShare || TRANSLATIONS.textShare[locale];
+    const textCopy = props.textCopy || TRANSLATIONS.textCopy[locale];
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenAnim, setIsOpenAnim] = useState(false);
     const [isOpenAnim2, setIsOpenAnim2] = useState(false);
