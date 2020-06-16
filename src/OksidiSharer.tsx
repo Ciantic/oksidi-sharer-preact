@@ -39,15 +39,15 @@ const DEFAULT_PROPS = {
     useLink: true,
     useEmail: true,
     useLinkedin: false,
-    textShare: null as string | null,
-    textCopy: null as string | null,
+    textShare: "",
+    textCopy: "",
     css: "",
 };
 
 const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiven) => {
     const props = Object.assign({}, DEFAULT_PROPS, propsGiven);
-    const textShare = props.textShare ?? TRANSLATIONS.textShare[props.locale];
-    const textCopy = props.textCopy ?? TRANSLATIONS.textCopy[props.locale];
+    const textShare = props.textShare || TRANSLATIONS.textShare[props.locale];
+    const textCopy = props.textCopy || TRANSLATIONS.textCopy[props.locale];
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenAnim, setIsOpenAnim] = useState(false);
     const [isOpenAnim2, setIsOpenAnim2] = useState(false);
