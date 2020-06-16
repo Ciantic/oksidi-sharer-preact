@@ -63,6 +63,9 @@ const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiv
 
     const onClickToggle = (e: MouseEvent) => {
         e.preventDefault();
+        // TODO: Following logic completly wrong, because I copied it blindly
+        // from solidjs which has synchronous state management.
+
         if (!isOpen) {
             setIsOpenAnim(true);
             setTimeout(() => {
@@ -74,7 +77,7 @@ const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiv
                 setIsOpenAnim(isOpen);
             }, 250);
         }
-        setIsOpen(!isOpen); // In preact/reacat this is *asynchronous*
+        setIsOpen(!isOpen);
     };
 
     const onClickCopyToClipboard = (e: MouseEvent) => {
