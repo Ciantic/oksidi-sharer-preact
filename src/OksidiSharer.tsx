@@ -61,11 +61,13 @@ const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiv
     const whatsAppSharingUrl = `whatsapp://send?text=${urlUE}`;
     const mailSharingUrl = `mailto:?subject=${titleUE}&body=${urlUE}`;
 
+    // Note, following code intentionally is lazy about "cleaning up" the timeouts etc.
+
     const onClickToggle = (e: MouseEvent) => {
         e.preventDefault();
-        // TODO: Following logic completly wrong, because I copied it blindly
-        // from solidjs which has synchronous state management.
 
+        // Note, because (p)react has asynchronous state handling, the following
+        // is a bit more complicated than in synchronous state handling
         if (!isOpen) {
             setIsOpenAnim(true);
             setTimeout(() => {
@@ -74,7 +76,13 @@ const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiv
         } else {
             setIsOpenAnim2(false);
             setTimeout(() => {
-                setIsOpenAnim(isOpen);
+                // Setting isOpenAnim = isOpen, requires to re-use the old value
+                // of isOpen, which is only accessible during set timeout with a
+                // setIsOpen.
+                setIsOpen((isOpen) => {
+                    setIsOpenAnim(isOpen);
+                    return isOpen;
+                });
             }, 250);
         }
         setIsOpen(!isOpen);
