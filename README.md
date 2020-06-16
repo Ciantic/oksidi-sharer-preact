@@ -1,3 +1,3 @@
 # oksidi-sharer
 
-[Click here to see example.](https://ciantic.github.io/oksidi-sharer-solid/dist/index.html)
+[Click here to see example.](https://ciantic.github.io/oksidi-sharer-preact/dist/index.html)
