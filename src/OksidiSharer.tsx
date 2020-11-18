@@ -32,7 +32,7 @@ const TRANSLATIONS = {
 const DEFAULT_PROPS = {
     locale: "",
     shareUrl: window.location.href,
-    shareTitle: "",
+    shareTitle: document.title,
     useFacebook: true,
     useTwitter: true,
     useWhatsapp: true,
