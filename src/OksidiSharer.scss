@@ -17,6 +17,7 @@ $size2: var(--icon-size, 1.2em);
     text-decoration: none;
     color: $fg;
     transition: color $anim-speed;
+    padding-right: 0.8em;
     > svg {
         transition: fill $anim-speed;
         width: $size;
@@ -39,7 +40,7 @@ $size2: var(--icon-size, 1.2em);
 
 .choices {
     list-style: none;
-    padding: 0 0 0 0.4em;
+    padding: 0;
     margin: 0;
     display: inline-block;
     position: relative;
@@ -66,6 +67,12 @@ $size2: var(--icon-size, 1.2em);
                 }
             }
         }
+    }
+    li:first-child a {
+        padding-left: 0;
+    }
+    li:last-child a {
+        padding-right: 0;
     }
     svg {
         width: $size2;

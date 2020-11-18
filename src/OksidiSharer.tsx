@@ -39,6 +39,7 @@ const DEFAULT_PROPS = {
     useLink: true,
     useEmail: true,
     useLinkedin: false,
+    opener: true,
     textShare: "",
     textCopy: "",
     css: "",
@@ -49,9 +50,9 @@ const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiv
     const locale = getLocale(props.locale || document.documentElement.lang);
     const textShare = props.textShare || TRANSLATIONS.textShare[locale];
     const textCopy = props.textCopy || TRANSLATIONS.textCopy[locale];
-    const [isOpen, setIsOpen] = useState(false);
-    const [isOpenAnim, setIsOpenAnim] = useState(false);
-    const [isOpenAnim2, setIsOpenAnim2] = useState(false);
+    const [isOpen, setIsOpen] = useState(!props.opener);
+    const [isOpenAnim, setIsOpenAnim] = useState(!props.opener);
+    const [isOpenAnim2, setIsOpenAnim2] = useState(!props.opener);
     const [showCopyToClipboardTooltip, setShowCopyToClipboardTooltip] = useState(false);
 
     const urlUE = encodeURIComponent(props.shareUrl);
@@ -106,27 +107,29 @@ const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiv
                 {style} {props.css}
             </style>
             <div class="sharer">
-                <a href="#share" class="opener" onClick={onClickToggle}>
-                    {!isOpen || !isOpenAnim ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
-                            <path
-                                d={
-                                    "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-6 17c1.513-6.587 7-7.778 7-7.78v-2.222l5 4.425-5 4.464v-2.223c0 .001-3.78-.114-7 3.334z"
-                                }
-                            />
-                        </svg>
-                    ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
-                            <path
-                                d={
-                                    "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.538l-4.592-4.548 4.546-4.587-1.416-1.403-4.545 4.589-4.588-4.543-1.405 1.405 4.593 4.552-4.547 4.592 1.405 1.405 4.555-4.596 4.591 4.55 1.403-1.416z"
-                                }
-                            />
-                        </svg>
-                    )}
+                {props.opener && (
+                    <a href="#share" class="opener" onClick={onClickToggle}>
+                        {!isOpen || !isOpenAnim ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+                                <path
+                                    d={
+                                        "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-6 17c1.513-6.587 7-7.778 7-7.78v-2.222l5 4.425-5 4.464v-2.223c0 .001-3.78-.114-7 3.334z"
+                                    }
+                                />
+                            </svg>
+                        ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+                                <path
+                                    d={
+                                        "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.538l-4.592-4.548 4.546-4.587-1.416-1.403-4.545 4.589-4.588-4.543-1.405 1.405 4.593 4.552-4.547 4.592 1.405 1.405 4.555-4.596 4.591 4.55 1.403-1.416z"
+                                    }
+                                />
+                            </svg>
+                        )}
 
-                    <span class="title">{textShare}</span>
-                </a>
+                        <span class="title">{textShare}</span>
+                    </a>
+                )}
                 {isOpenAnim && (
                     <ul class={`choices ${isOpenAnim2 ? "shown" : "hidden"}`}>
                         {props.useFacebook && (
@@ -252,7 +255,13 @@ customElements.define(
                     if (typeof defaultValue === "string") {
                         (props as any)[propertyName] = "" + attr.value;
                     } else if (typeof defaultValue === "boolean") {
-                        (props as any)[propertyName] = !!attr.value;
+                        let value = defaultValue;
+                        if (attr.value === "false" || attr.value === "0") {
+                            value = false;
+                        } else if (attr.value === "true" || attr.value === "1") {
+                            value = true;
+                        }
+                        (props as any)[propertyName] = value;
                     } /* else if (typeof defaultValue === "number") {
                         props[propertyName] = +attr.value;
                     }*/
