@@ -18,7 +18,7 @@ $size2: var(--icon-size, 1.2em);
     color: $fg;
     transition: color $anim-speed;
     padding-right: 0.8em;
-    > svg {
+    svg {
         transition: fill $anim-speed;
         width: $size;
         height: $size;

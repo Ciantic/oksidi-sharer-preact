@@ -40,6 +40,8 @@ const DEFAULT_PROPS = {
     useEmail: true,
     useLinkedin: false,
     opener: true,
+    openerSvg: "",
+    closingSvg: "",
     textShare: "",
     textCopy: "",
     css: "",
@@ -62,6 +64,30 @@ const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiv
     const linkedInSharingUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${urlUE}&title=${titleUE}&summary=&source=LinkedIn`;
     const whatsAppSharingUrl = `whatsapp://send?text=${urlUE}`;
     const mailSharingUrl = `mailto:?subject=${titleUE}&body=${urlUE}`;
+
+    const openerSvg = props.openerSvg ? (
+        <span dangerouslySetInnerHTML={{ __html: props.openerSvg }}></span>
+    ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+            <path
+                d={
+                    "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-6 17c1.513-6.587 7-7.778 7-7.78v-2.222l5 4.425-5 4.464v-2.223c0 .001-3.78-.114-7 3.334z"
+                }
+            />
+        </svg>
+    );
+
+    const closingSvg = props.closingSvg ? (
+        <span dangerouslySetInnerHTML={{ __html: props.closingSvg }}></span>
+    ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+            <path
+                d={
+                    "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.538l-4.592-4.548 4.546-4.587-1.416-1.403-4.545 4.589-4.588-4.543-1.405 1.405 4.593 4.552-4.547 4.592 1.405 1.405 4.555-4.596 4.591 4.55 1.403-1.416z"
+                }
+            />
+        </svg>
+    );
 
     // Note, following code intentionally is lazy about "cleaning up" the timeouts etc.
 
@@ -109,23 +135,7 @@ const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiv
             <div class="sharer">
                 {props.opener && (
                     <a href="#share" class="opener" onClick={onClickToggle}>
-                        {!isOpen || !isOpenAnim ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
-                                <path
-                                    d={
-                                        "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-6 17c1.513-6.587 7-7.778 7-7.78v-2.222l5 4.425-5 4.464v-2.223c0 .001-3.78-.114-7 3.334z"
-                                    }
-                                />
-                            </svg>
-                        ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
-                                <path
-                                    d={
-                                        "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.538l-4.592-4.548 4.546-4.587-1.416-1.403-4.545 4.589-4.588-4.543-1.405 1.405 4.593 4.552-4.547 4.592 1.405 1.405 4.555-4.596 4.591 4.55 1.403-1.416z"
-                                    }
-                                />
-                            </svg>
-                        )}
+                        {!isOpen || !isOpenAnim ? openerSvg : closingSvg}
 
                         <span class="title">{textShare}</span>
                     </a>
@@ -149,12 +159,8 @@ const OksidiSharer: FunctionComponent<Partial<typeof DEFAULT_PROPS>> = (propsGiv
                         {props.useTwitter && (
                             <li>
                                 <a href={twitterSharingUrl} target="_blank">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path
-                                            d={
-                                                "M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"
-                                            }
-                                        />
+                                    <svg viewBox="0 0 1250 1250" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M 739.163 531.099 L 1185.89 11.815 L 1080.03 11.815 L 692.137 462.702 L 382.328 11.815 L 25 11.815 L 493.492 693.636 L 25 1238.185 L 130.866 1238.185 L 540.491 762.033 L 867.672 1238.185 L 1225 1238.185 L 739.137 531.099 L 739.163 531.099 Z M 594.165 699.643 L 546.697 631.749 L 169.011 91.509 L 331.615 91.509 L 636.412 527.5 L 683.88 595.394 L 1080.08 1162.115 L 917.476 1162.115 L 594.165 699.669 L 594.165 699.643 Z"></path>
                                     </svg>
                                 </a>
                             </li>
